@@ -3,8 +3,11 @@ package main
 import (
 	"fmt"
 	"log"
+	"module2/utils"
 	"net/http"
 	"os"
+
+	_ "github.com/spf13/cobra"
 )
 
 func main() {
@@ -20,11 +23,7 @@ func main() {
 
 func healthzHandler(w http.ResponseWriter, r *http.Request) {
 	// 将请求头信息写入响应头
-	for key, values := range r.Header {
-		for _, value := range values {
-			w.Header().Add(key, value)
-		}
-	}
+	utils.WriteReqHeadersToResponse(w, r)
 
 	// 读取环境变量中的VERSION配置，并写入响应头
 	version := os.Getenv("VERSION")
